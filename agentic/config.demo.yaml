@@ -1,0 +1,15 @@
+# Demo configuration for OpenCode + Agent-Zero integration
+
+opencode:
+  api_url: http://localhost:8081
+  demo_user: demo
+  demo_password: demo123
+
+agentzero:
+  api_url: http://localhost:8082
+
+integration:
+  enabled: true
+  log_level: debug
+
+# Add additional configuration as needed for testing

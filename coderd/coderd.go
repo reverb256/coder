@@ -5,6 +5,7 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"database/sql"
+	"encoding/json"
 	"errors"
 	"expvar"
 	"flag"
@@ -56,6 +57,7 @@ import (
 	"github.com/coder/coder/v2/buildinfo"
 	_ "github.com/coder/coder/v2/coderd/apidoc" // Used for swagger docs.
 	"github.com/coder/coder/v2/coderd/appearance"
+	"github.com/coder/coder/v2/agentic"
 	"github.com/coder/coder/v2/coderd/audit"
 	"github.com/coder/coder/v2/coderd/awsidentity"
 	"github.com/coder/coder/v2/coderd/database"
@@ -1478,6 +1480,23 @@ func New(options *Options) *API {
 			}
 			r.Method("GET", "/expvar", expvar.Handler()) // contains DERP metrics as well as cmdline and memstats
 		})
+
+		// --- Agentic API Integration Layer ---
+		r.Route("/agentic", func(r chi.Router) {
+			r.Use(apiKeyMiddleware)
+			// OpenCode endpoints
+			r.Route("/opencode", func(r chi.Router) {
+				r.Get("/agents", api.listOpenCodeAgents)
+				r.Post("/agents", api.createOpenCodeAgent)
+				r.Post("/invoke", api.invokeOpenCodeAgent)
+			})
+			// Agent-Zero endpoints
+			r.Route("/agent-zero", func(r chi.Router) {
+				r.Get("/workflows", api.listAgentZeroWorkflows)
+				r.Post("/workflows", api.createAgentZeroWorkflow)
+				r.Post("/orchestrate", api.orchestrateAgentZero)
+			})
+		})
 		// Manage OAuth2 applications that can use Coder as an OAuth2 provider.
 		r.Route("/oauth2-provider", func(r chi.Router) {
 			r.Use(
@@ -1602,6 +1621,11 @@ func New(options *Options) *API {
 }
 
 type API struct {
+	// --- Agentic Orchestrator (Phase 2) ---
+	// These fields are for the agentic API integration layer.
+	agenticOrchestrator *agentic.Orchestrator
+	agenticInitOnce     sync.Once
+	agenticInitErr      error
 	// ctx is canceled immediately on shutdown, it can be used to abort
 	// interruptible tasks.
 	ctx    context.Context
@@ -1679,6 +1703,94 @@ type API struct {
 	// dbRolluper rolls up template usage stats from raw agent and app
 	// stats. This is used to provide insights in the WebUI.
 	dbRolluper *dbrollup.Rolluper
+}
+
+func (api *API) ensureAgenticOrchestrator() (*agentic.Orchestrator, error) {
+	api.agenticInitOnce.Do(func() {
+		// Load config and secret manager from agentic package
+		secretManager := agentic.NewSecretManager() // Adjust if needs context/env
+		cfg := agentic.DefaultConfig()
+		_ = cfg.LoadFromSecrets(secretManager)
+		orchestrator, err := agentic.NewOrchestrator(cfg, secretManager)
+		if err != nil {
+			api.agenticInitErr = err
+			return
+		}
+		api.agenticOrchestrator = orchestrator
+	})
+	return api.agenticOrchestrator, api.agenticInitErr
+}
+
+func (api *API) listOpenCodeAgents(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	orchestrator, err := api.ensureAgenticOrchestrator()
+	if err != nil {
+		httpapi.Write(ctx, w, http.StatusInternalServerError, codersdk.Response{Message: "Agentic orchestrator unavailable", Detail: err.Error()})
+		return
+	}
+	agents := orchestrator.ListConnectors()
+	var opencodeAgents []codersdk.OpenCodeAgent
+	for _, a := range agents {
+		if a.Name == "opencode" {
+			opencodeAgents = append(opencodeAgents, codersdk.OpenCodeAgent{
+				ID:     a.Name,
+				Name:   a.Name,
+				Status: a.Status,
+				Config: nil,
+			})
+		}
+	}
+	httpapi.Write(ctx, w, http.StatusOK, codersdk.ListOpenCodeAgentsResponse{Agents: opencodeAgents})
+}
+
+func (api *API) createOpenCodeAgent(w http.ResponseWriter, r *http.Request) {
+	// TODO: Implement agent creation logic
+	httpapi.Write(r.Context(), w, http.StatusNotImplemented, codersdk.Response{Message: "Not implemented"})
+}
+
+func (api *API) invokeOpenCodeAgent(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	orchestrator, err := api.ensureAgenticOrchestrator()
+	if err != nil {
+		httpapi.Write(ctx, w, http.StatusInternalServerError, codersdk.Response{Message: "Agentic orchestrator unavailable", Detail: err.Error()})
+		return
+	}
+	var req codersdk.InvokeOpenCodeAgentRequest
+	// Use standard JSON decoding since httpapi.DecodeJSON does not exist
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		httpapi.Write(ctx, w, http.StatusBadRequest, codersdk.Response{Message: "Invalid request", Detail: err.Error()})
+		return
+	}
+	payload, ok := req.Task.(map[string]interface{})
+	if !ok {
+		httpapi.Write(ctx, w, http.StatusBadRequest, codersdk.Response{Message: "Invalid task payload"})
+		return
+	}
+	task := &agentic.Task{
+		Type:    "opencode",
+		Payload: payload,
+	}
+	result, err := orchestrator.ExecuteTask(ctx, task)
+	if err != nil {
+		httpapi.Write(ctx, w, http.StatusInternalServerError, codersdk.InvokeOpenCodeAgentResponse{Error: err.Error()})
+		return
+	}
+	httpapi.Write(ctx, w, http.StatusOK, codersdk.InvokeOpenCodeAgentResponse{Result: result.Output})
+}
+
+func (api *API) listAgentZeroWorkflows(w http.ResponseWriter, r *http.Request) {
+	// TODO: Implement workflow listing logic
+	httpapi.Write(r.Context(), w, http.StatusNotImplemented, codersdk.Response{Message: "Not implemented"})
+}
+
+func (api *API) createAgentZeroWorkflow(w http.ResponseWriter, r *http.Request) {
+	// TODO: Implement workflow creation logic
+	httpapi.Write(r.Context(), w, http.StatusNotImplemented, codersdk.Response{Message: "Not implemented"})
+}
+
+func (api *API) orchestrateAgentZero(w http.ResponseWriter, r *http.Request) {
+	// TODO: Implement orchestration logic
+	httpapi.Write(r.Context(), w, http.StatusNotImplemented, codersdk.Response{Message: "Not implemented"})
 }
 
 // Close waits for all WebSocket connections to drain before returning.

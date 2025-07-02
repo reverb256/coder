@@ -9,8 +9,10 @@ import (
 type Config struct {
 	HuggingFace    HFConfig
 	IOIntelligence IOIConfig
-	DefaultLLM     string // "huggingface" or "io_intelligence"
-	DefaultEmbed   string // "huggingface" or "io_intelligence"
+	OpenCode       OpenCodeConfig
+	AgentZero      AgentZeroConfig
+	DefaultLLM     string // "huggingface" or "io_intelligence" or "opencode"
+	DefaultEmbed   string // "huggingface" or "io_intelligence" or "opencode"
 
 	// Authentication configuration
 	Auth AuthConfig `json:"auth" yaml:"auth"`
@@ -97,6 +99,8 @@ func DefaultConfig() *Config {
 	return &Config{
 		DefaultLLM:   "huggingface",
 		DefaultEmbed: "huggingface",
+		OpenCode:     OpenCodeConfig{},
+		AgentZero:    AgentZeroConfig{},
 		Auth: AuthConfig{
 			GitHub: GitHubAuthConfig{
 				Scopes: []string{"user:email", "read:user"},
@@ -125,7 +129,10 @@ func DefaultConfig() *Config {
 	}
 }
 
-// LoadFromSecrets populates configuration values from the secret manager.
+/*
+ * LoadFromSecrets populates configuration values from the secret manager.
+ * Also loads OpenCode and Agent-Zero config.
+ */
 func (c *Config) LoadFromSecrets(secretManager *SecretManager) error {
 	// Load GitHub OAuth credentials
 	if clientID, err := secretManager.Get("GITHUB_CLIENT_ID"); err == nil {
@@ -148,6 +155,25 @@ func (c *Config) LoadFromSecrets(secretManager *SecretManager) error {
 	// Load IOI API key
 	if apiKey, err := secretManager.Get("IO_INTELLIGENCE_API_KEY"); err == nil {
 		c.IOIntelligence.APIKey = apiKey
+	}
+
+	// Load OpenCode config
+	if apiKey, err := secretManager.Get("OPENCODE_API_KEY"); err == nil {
+		c.OpenCode.APIKey = apiKey
+	}
+	if endpoint, err := secretManager.Get("OPENCODE_ENDPOINT"); err == nil {
+		c.OpenCode.Endpoint = endpoint
+	}
+	if wsurl, err := secretManager.Get("OPENCODE_WS_URL"); err == nil {
+		c.OpenCode.WSURL = wsurl
+	}
+
+	// Load Agent-Zero config
+	if endpoint, err := secretManager.Get("AGENTZERO_ENDPOINT"); err == nil {
+		c.AgentZero.Endpoint = endpoint
+	}
+	if apiKey, err := secretManager.Get("AGENTZERO_API_KEY"); err == nil {
+		c.AgentZero.APIKey = apiKey
 	}
 
 	// Load infrastructure credentials

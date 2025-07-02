@@ -1,6 +1,61 @@
 # Agentic FOSS Infrastructure Orchestration
 
-This implementation provides **Steps 1 & 2** of the FOSS Agentic Orchestration Plan: **GitHub OAuth, secure secrets management, and comprehensive infrastructure orchestration**.
+---
+
+## 🚀 Demo Setup: OpenCode + Agent-Zero Integration
+
+This section describes how to run the complete integration demo using local mock services.
+
+### 1. Prerequisites
+
+- Go 1.20+ installed
+- Bash shell
+
+### 2. Start Mock Services
+
+In separate terminals, run:
+
+```bash
+go run ./agentic/testdata/mock_opencode_server.go
+go run ./agentic/testdata/mock_agentzero_server.go
+```
+
+Or use the provided helper script:
+
+```bash
+./scripts/demo_start.sh
+```
+
+### 3. Configure Environment
+
+```bash
+cp agentic/.env.demo agentic/.env
+cp agentic/config.demo.yaml agentic/config.yaml
+```
+
+### 4. Run the Demo
+
+- Start the main integration service or run integration tests:
+
+```bash
+go run ./agentic/example.go
+# or
+./scripts/demo_test.sh
+```
+
+### 5. Stop Demo Services
+
+```bash
+./scripts/demo_stop.sh
+```
+
+### 6. Troubleshooting
+
+- Ensure ports 8081 and 8082 are free.
+- Check logs for errors in mock server terminals.
+- See [docs/integrations/opencode-agentzero/demo.md](../docs/integrations/opencode-agentzero/demo.md) for full guide.
+
+---
 
 ## Features
 
@@ -25,7 +80,11 @@ This implementation provides **Steps 1 & 2** of the FOSS Agentic Orchestration P
 - **Multi-Step Workflows**: Complex infrastructure automation with dependency management
 - **Unified Interface**: Single API for all infrastructure operations
 
-### 🛡️ Security Features
+### 🤖 New Agent Connectors
+
+- **OpenCode Agent Connector**: Integrates OpenCode AI agent platform via REST/WebSocket APIs.
+- **Agent-Zero Orchestrator Connector**: Integrates Agent-Zero orchestration via JSON-RPC/HTTP APIs.
+
 - **PBKDF2 Key Derivation**: Strong password-based encryption
 - **Secure Random Generation**: Cryptographically secure random values
 - **HTTP-Only Cookies**: Session cookies with security flags
@@ -84,7 +143,7 @@ import (
     "log"
     "os/signal"
     "syscall"
-    
+
     "github.com/coder/coder/v2/agentic"
 )
 
@@ -94,11 +153,11 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
-    
+
     // Setup graceful shutdown
     ctx, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
     defer cancel()
-    
+
     // Start server
     if err := server.Start(ctx, ":8080"); err != nil {
         log.Fatal(err)
@@ -126,6 +185,17 @@ func main() {
 
 ## Configuration
 
+### OpenCode and Agent-Zero Configuration
+
+Set these environment variables or secrets for agent registration:
+
+- `OPENCODE_API_KEY`: OpenCode API key
+- `OPENCODE_ENDPOINT`: OpenCode REST endpoint (e.g. https://api.opencode.ai/v1/agent/invoke)
+- `OPENCODE_WS_URL`: (optional) OpenCode WebSocket endpoint
+
+- `AGENTZERO_ENDPOINT`: Agent-Zero JSON-RPC/HTTP endpoint (e.g. https://agentzero.local/api/jsonrpc)
+- `AGENTZERO_API_KEY`: Agent-Zero API key
+
 ### Default Configuration
 
 ```go
@@ -138,21 +208,16 @@ config := agentic.DefaultConfig()
 
 ```go
 config := &agentic.Config{
-    Auth: agentic.AuthConfig{
-        GitHub: agentic.GitHubAuthConfig{
-            ClientID:     "your_client_id",
-            ClientSecret: "your_client_secret", 
-            RedirectURL:  "http://localhost:8080/auth/callback",
-            Scopes:       []string{"user:email", "read:user"},
-        },
+    OpenCode: agentic.OpenCodeConfig{
+        APIKey:   "your_opencode_api_key",
+        Endpoint: "https://api.opencode.ai/v1/agent/invoke",
+        WSURL:    "wss://api.opencode.ai/v1/agent/ws",
     },
-    Secrets: agentic.SecretsConfig{
-        Provider: "file", // or "env", "vault", "k8s"
-        File: agentic.FileSecretsConfig{
-            Path:     ".agentic/secrets.json",
-            Password: "secure_password",
-        },
+    AgentZero: agentic.AgentZeroConfig{
+        Endpoint: "https://agentzero.local/api/jsonrpc",
+        APIKey:   "your_agentzero_api_key",
     },
+    // ... other config ...
 }
 ```
 
@@ -196,7 +261,11 @@ secretManager.AddStore("file", fileStore)
 
 ## Integration Examples
 
-### Custom Secret Store
+### Supported Agent Types
+
+- `"opencode"`: OpenCode agent connector (LLM, plugin, IDE agent tasks)
+- `"agent-zero"`: Agent-Zero orchestrator (multi-agent workflow, orchestration)
+
 ```go
 type VaultSecretStore struct {
     client *vault.Client

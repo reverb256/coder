@@ -1,0 +1,4 @@
+2025/07/02 16:50:01 Starting agentic server on :8080
+2025/07/02 16:50:01 GitHub OAuth configured: false
+2025/07/02 16:50:03 "GET http://localhost:8080/health HTTP/1.1" from [::1]:53698 - 200 73B in 145.537µs
+2025/07/02 16:50:03 "GET http://localhost:8080/api/user HTTP/1.1" from [::1]:53712 - 401 24B in 75.584µs

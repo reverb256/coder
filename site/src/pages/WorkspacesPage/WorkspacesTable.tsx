@@ -87,6 +87,7 @@ import {
 	lastUsedMessage,
 } from "utils/workspace";
 import { WorkspacesEmpty } from "./WorkspacesEmpty";
+import { AgentConfigPanel } from "../../components/Agentic/AgentConfigPanel";
 
 interface WorkspacesTableProps {
 	workspaces?: readonly Workspace[];
@@ -186,6 +187,7 @@ export const WorkspacesTable: FC<WorkspacesTableProps> = ({
 					{hasActivity && (
 						<TableHead className={tableColumnSize.activity}>Activity</TableHead>
 					)}
+					<TableHead>Agentic Services</TableHead>
 					<TableHead className="w-0">
 						<span className="sr-only">Actions</span>
 					</TableHead>
@@ -308,6 +310,15 @@ export const WorkspacesTable: FC<WorkspacesTableProps> = ({
 								</TableCell>
 							)}
 
+							<AgentConfigPanel
+								agent={{
+									id: workspace.id,
+									name: "OpenCode Agent",
+									enabled: true,
+									config: { example: "value" }
+								}}
+								onUpdateConfig={() => {}}
+							/>
 							<WorkspaceActionsCell
 								workspace={workspace}
 								onActionSuccess={onActionSuccess}

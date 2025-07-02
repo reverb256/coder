@@ -30,6 +30,18 @@ func NewOrchestrator(config *Config, secretManager *SecretManager) (*Orchestrato
 		registry.Register(ioiClient)
 	}
 
+	// Register OpenCode connector
+	if config.OpenCode.APIKey != "" && config.OpenCode.Endpoint != "" {
+		opencodeClient := NewOpenCodeClient(config.OpenCode)
+		registry.Register(opencodeClient)
+	}
+
+	// Register Agent-Zero connector
+	if config.AgentZero.Endpoint != "" {
+		agentZeroClient := NewAgentZeroClient(config.AgentZero)
+		registry.Register(agentZeroClient)
+	}
+
 	// Register infrastructure connectors
 
 	// Proxmox connector

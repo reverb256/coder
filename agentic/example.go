@@ -1,4 +1,3 @@
-// Package agentic provides example usage of the authentication and secrets management system.
 package agentic
 
 import (
@@ -340,7 +339,6 @@ func (es *ExampleServer) Start(ctx context.Context, addr string) error {
 	return server.Shutdown(context.Background())
 }
 
-// Helper functions for JSON handling
 func writeJSON(w http.ResponseWriter, data interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(data); err != nil {
@@ -351,3 +349,4 @@ func writeJSON(w http.ResponseWriter, data interface{}) {
 func parseJSON(r *http.Request, v interface{}) error {
 	return json.NewDecoder(r.Body).Decode(v)
 }
+

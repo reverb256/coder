@@ -1,0 +1,59 @@
+# Example Coder Workspace Template: OpenCode & Agent-Zero Integration
+
+version: 1
+services:
+  opencode:
+    image: opencode/service:latest
+    entrypoint: ["/workspace/opencode-service.sh"]
+    environment:
+      - OPCODE_CONFIG_PATH=/workspace/opencode-config.yaml
+    ports:
+      - 8081:8081
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    secrets:
+      - opencode_api_key
+    volumes:
+      - ./opencode-service.sh:/workspace/opencode-service.sh
+      - ./opencode-config.yaml:/workspace/opencode-config.yaml
+
+  agentzero:
+    image: agentzero/service:latest
+    entrypoint: ["/workspace/agentzero-service.sh"]
+    environment:
+      - AGENTZERO_CONFIG_PATH=/workspace/agentzero-config.yaml
+    ports:
+      - 8090:8090
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    secrets:
+      - agentzero_api_key
+    volumes:
+      - ./agentzero-service.sh:/workspace/agentzero-service.sh
+      - ./agentzero-config.yaml:/workspace/agentzero-config.yaml
+
+ide:
+  vscode:
+    extensions:
+      - ms-vscode.remote-containers
+      - opencode.opencode-vscode
+      - agentzero.agentzero-vscode
+    settings:
+      "opencode.endpoint": "http://localhost:8081"
+      "agentzero.endpoint": "http://localhost:8090"
+
+secrets:
+  opencode_api_key: "<insert-opencode-api-key>"
+  agentzero_api_key: "<insert-agentzero-api-key>"
+
+networks:
+  default:
+    driver: bridge
+
+# See networking.md for security and connectivity best practices.

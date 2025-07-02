@@ -18,6 +18,9 @@ import { docs } from "utils/docs";
 import { Alert } from "../../../components/Alert/Alert";
 import OptionsTable from "../OptionsTable";
 import { UserEngagementChart } from "./UserEngagementChart";
+import { AgentList } from "../../../components/Agentic/AgentList";
+import { AgentWorkflowMonitor } from "../../../components/Agentic/AgentWorkflowMonitor";
+import { AgenticHelp } from "../../../components/Agentic/AgenticHelp";
 
 type OverviewPageViewProps = {
 	deploymentOptions: SerpentOption[];
@@ -50,6 +53,19 @@ export const OverviewPageView: FC<OverviewPageViewProps> = ({
 						users: i.amount,
 					}))}
 				/>
+				<AgentList
+					agents={[
+						{ id: "1", name: "OpenCode Alpha", status: "online", type: "OpenCode" },
+						{ id: "2", name: "Agent-Zero", status: "offline", type: "Agent-Zero" },
+					]}
+				/>
+				<AgentWorkflowMonitor
+					tasks={[
+						{ id: "wf1", name: "Build Project", status: "completed", startedAt: "2025-07-02T12:00:00Z", finishedAt: "2025-07-02T12:05:00Z" },
+						{ id: "wf2", name: "Run Tests", status: "running", startedAt: "2025-07-02T12:10:00Z" },
+					]}
+				/>
+				<AgenticHelp topic="agent" />
 				{invalidExperiments.length > 0 && (
 					<Alert severity="warning">
 						<AlertTitle>Invalid experiments in use:</AlertTitle>

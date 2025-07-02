@@ -1,0 +1,3 @@
+=== [3/7] API endpoint checks...
+{"auth":"enabled","secrets":{"env":true,"file":true},"status":"healthy"}
+User endpoint requires auth

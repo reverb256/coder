@@ -1,0 +1,18 @@
+{
+  "OpenCodeAgent": {
+    "id": "oc-1",
+    "name": "OpenCode Test Agent",
+    "status": "active",
+    "config": {
+      "endpoint": "http://mock-opencode:8080"
+    }
+  },
+  "AgentZeroWorkflow": {
+    "id": "az-1",
+    "name": "AgentZero Test Workflow",
+    "description": "Mock workflow for integration testing",
+    "steps": [
+      {"name": "step1", "action": "echo", "params": {"msg": "hello"}}
+    ]
+  }
+}
