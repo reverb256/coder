@@ -127,5 +127,4 @@ log entry:
 
 ## Enabling this feature
 
-This feature is only available with a premium license.
-[Learn more](../licensing/index.md)
+This feature is now available to all users. No license or paid plan is required.

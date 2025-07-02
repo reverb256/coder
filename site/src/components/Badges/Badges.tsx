@@ -107,37 +107,11 @@ export const DisabledBadge: FC = forwardRef<
 });
 
 export const EnterpriseBadge: FC = () => {
-	return (
-		<span
-			css={[
-				styles.badge,
-				(theme) => ({
-					backgroundColor: theme.branding.enterprise.background,
-					border: `1px solid ${theme.branding.enterprise.border}`,
-					color: theme.branding.enterprise.text,
-				}),
-			]}
-		>
-			Enterprise
-		</span>
-	);
+	return null;
 };
 
 export const PremiumBadge: FC = () => {
-	return (
-		<span
-			css={[
-				styles.badge,
-				(theme) => ({
-					backgroundColor: theme.branding.premium.background,
-					border: `1px solid ${theme.branding.premium.border}`,
-					color: theme.branding.premium.text,
-				}),
-			]}
-		>
-			Premium
-		</span>
-	);
+	return null;
 };
 
 export const PreviewBadge: FC = () => {

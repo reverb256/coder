@@ -5,8 +5,15 @@ import { docs } from "utils/docs";
 
 type PremiumPageViewProps = { isEnterprise: boolean };
 
-export const PremiumPageView: FC<PremiumPageViewProps> = ({ isEnterprise }) => {
-	return isEnterprise ? <EnterpriseVersion /> : <OSSVersion />;
+export const PremiumPageView: FC<PremiumPageViewProps> = () => {
+	return (
+		<div style={{ padding: 24 }}>
+			<h2 style={{ fontWeight: 600, fontSize: 22, margin: 0 }}>All features are available</h2>
+			<p style={{ maxWidth: 460, fontSize: 14 }}>
+				There are no feature restrictions or upgrade requirements. Enjoy full access.
+			</p>
+		</div>
+	);
 };
 
 const EnterpriseVersion: FC = () => {

@@ -148,6 +148,8 @@ type Options struct {
 	Database         database.Store
 	Pubsub           pubsub.Pubsub
 	RuntimeConfig    *runtimeconfig.Manager
+	// SCIMAPIKey enables SCIM endpoints if set (FOSS).
+	SCIMAPIKey []byte
 
 	// CacheDir is used for caching files served by the API.
 	CacheDir string
@@ -875,6 +877,36 @@ func New(options *Options) *API {
 		r.Use(apiRateLimiter)
 		api.workspaceAppServer.Attach(r)
 	})
+
+	// SCIM FOSS endpoints
+	if len(options.SCIMAPIKey) != 0 {
+		r.Route("/scim/v2", func(r chi.Router) {
+			r.Get("/ServiceProviderConfig", api.scimServiceProviderConfig)
+			r.Post("/Users", api.scimPostUser)
+			r.Route("/Users", func(r chi.Router) {
+				r.Get("/", api.scimGetUsers)
+				r.Post("/", api.scimPostUser)
+				r.Get("/{id}", api.scimGetUser)
+				r.Patch("/{id}", api.scimPatchUser)
+				r.Put("/{id}", api.scimPutUser)
+			})
+			r.NotFound(func(w http.ResponseWriter, r *http.Request) {
+				u := r.URL.String()
+				httpapi.Write(r.Context(), w, http.StatusNotFound, codersdk.Response{
+					Message: "SCIM endpoint " + u + " not found",
+					Detail:  "This endpoint is not implemented. If it is correct and required, please contact support.",
+				})
+			})
+		})
+	} else {
+		// Show a helpful 404 error for SCIM endpoints if not enabled.
+		r.Mount("/scim/v2", http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			httpapi.Write(r.Context(), w, http.StatusNotFound, codersdk.Response{
+				Message: "SCIM is disabled, please contact your administrator if you believe this is an error",
+				Detail:  "SCIM endpoints are disabled if no SCIM is configured. Configure 'CODER_SCIM_AUTH_HEADER' to enable.",
+			})
+		})))
+	}
 
 	if options.DERPServer != nil {
 		derpHandler := derphttp.Handler(api.DERPServer)
