@@ -18,9 +18,12 @@ import { docs } from "utils/docs";
 import { Alert } from "../../../components/Alert/Alert";
 import OptionsTable from "../OptionsTable";
 import { UserEngagementChart } from "./UserEngagementChart";
+<<<<<<< HEAD
 import { AgentList } from "../../../components/Agentic/AgentList";
 import { AgentWorkflowMonitor } from "../../../components/Agentic/AgentWorkflowMonitor";
 import { AgenticHelp } from "../../../components/Agentic/AgenticHelp";
+=======
+>>>>>>> upstream/main
 
 type OverviewPageViewProps = {
 	deploymentOptions: SerpentOption[];
@@ -53,6 +56,7 @@ export const OverviewPageView: FC<OverviewPageViewProps> = ({
 						users: i.amount,
 					}))}
 				/>
+<<<<<<< HEAD
 				<AgentList
 					agents={[
 						{ id: "1", name: "OpenCode Alpha", status: "online", type: "OpenCode" },
@@ -66,6 +70,8 @@ export const OverviewPageView: FC<OverviewPageViewProps> = ({
 					]}
 				/>
 				<AgenticHelp topic="agent" />
+=======
+>>>>>>> upstream/main
 				{invalidExperiments.length > 0 && (
 					<Alert severity="warning">
 						<AlertTitle>Invalid experiments in use:</AlertTitle>

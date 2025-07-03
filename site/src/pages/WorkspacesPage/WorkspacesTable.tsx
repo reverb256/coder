@@ -87,7 +87,10 @@ import {
 	lastUsedMessage,
 } from "utils/workspace";
 import { WorkspacesEmpty } from "./WorkspacesEmpty";
+<<<<<<< HEAD
 import { AgentConfigPanel } from "../../components/Agentic/AgentConfigPanel";
+=======
+>>>>>>> upstream/main
 
 interface WorkspacesTableProps {
 	workspaces?: readonly Workspace[];
@@ -187,7 +190,10 @@ export const WorkspacesTable: FC<WorkspacesTableProps> = ({
 					{hasActivity && (
 						<TableHead className={tableColumnSize.activity}>Activity</TableHead>
 					)}
+<<<<<<< HEAD
 					<TableHead>Agentic Services</TableHead>
+=======
+>>>>>>> upstream/main
 					<TableHead className="w-0">
 						<span className="sr-only">Actions</span>
 					</TableHead>
@@ -310,6 +316,7 @@ export const WorkspacesTable: FC<WorkspacesTableProps> = ({
 								</TableCell>
 							)}
 
+<<<<<<< HEAD
 							<AgentConfigPanel
 								agent={{
 									id: workspace.id,
@@ -319,6 +326,8 @@ export const WorkspacesTable: FC<WorkspacesTableProps> = ({
 								}}
 								onUpdateConfig={() => {}}
 							/>
+=======
+>>>>>>> upstream/main
 							<WorkspaceActionsCell
 								workspace={workspace}
 								onActionSuccess={onActionSuccess}

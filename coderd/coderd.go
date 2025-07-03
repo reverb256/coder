@@ -5,7 +5,10 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"database/sql"
+<<<<<<< HEAD
 	"encoding/json"
+=======
+>>>>>>> upstream/main
 	"errors"
 	"expvar"
 	"flag"
@@ -57,7 +60,10 @@ import (
 	"github.com/coder/coder/v2/buildinfo"
 	_ "github.com/coder/coder/v2/coderd/apidoc" // Used for swagger docs.
 	"github.com/coder/coder/v2/coderd/appearance"
+<<<<<<< HEAD
 	"github.com/coder/coder/v2/agentic"
+=======
+>>>>>>> upstream/main
 	"github.com/coder/coder/v2/coderd/audit"
 	"github.com/coder/coder/v2/coderd/awsidentity"
 	"github.com/coder/coder/v2/coderd/database"
@@ -150,8 +156,11 @@ type Options struct {
 	Database         database.Store
 	Pubsub           pubsub.Pubsub
 	RuntimeConfig    *runtimeconfig.Manager
+<<<<<<< HEAD
 	// SCIMAPIKey enables SCIM endpoints if set (FOSS).
 	SCIMAPIKey []byte
+=======
+>>>>>>> upstream/main
 
 	// CacheDir is used for caching files served by the API.
 	CacheDir string
@@ -883,6 +892,7 @@ func New(options *Options) *API {
 		api.workspaceAppServer.Attach(r)
 	})
 
+<<<<<<< HEAD
 	// SCIM FOSS endpoints
 	if len(options.SCIMAPIKey) != 0 {
 		r.Route("/scim/v2", func(r chi.Router) {
@@ -913,6 +923,8 @@ func New(options *Options) *API {
 		})))
 	}
 
+=======
+>>>>>>> upstream/main
 	if options.DERPServer != nil {
 		derpHandler := derphttp.Handler(api.DERPServer)
 		derpHandler, api.derpCloseFunc = tailnet.WithWebsocketSupport(api.DERPServer, derpHandler)
@@ -1485,6 +1497,7 @@ func New(options *Options) *API {
 			}
 			r.Method("GET", "/expvar", expvar.Handler()) // contains DERP metrics as well as cmdline and memstats
 		})
+<<<<<<< HEAD
 
 		// --- Agentic API Integration Layer ---
 		r.Route("/agentic", func(r chi.Router) {
@@ -1502,6 +1515,8 @@ func New(options *Options) *API {
 				r.Post("/orchestrate", api.orchestrateAgentZero)
 			})
 		})
+=======
+>>>>>>> upstream/main
 		// Manage OAuth2 applications that can use Coder as an OAuth2 provider.
 		r.Route("/oauth2-provider", func(r chi.Router) {
 			r.Use(
@@ -1626,11 +1641,14 @@ func New(options *Options) *API {
 }
 
 type API struct {
+<<<<<<< HEAD
 	// --- Agentic Orchestrator (Phase 2) ---
 	// These fields are for the agentic API integration layer.
 	agenticOrchestrator *agentic.Orchestrator
 	agenticInitOnce     sync.Once
 	agenticInitErr      error
+=======
+>>>>>>> upstream/main
 	// ctx is canceled immediately on shutdown, it can be used to abort
 	// interruptible tasks.
 	ctx    context.Context
@@ -1710,6 +1728,7 @@ type API struct {
 	dbRolluper *dbrollup.Rolluper
 }
 
+<<<<<<< HEAD
 func (api *API) ensureAgenticOrchestrator() (*agentic.Orchestrator, error) {
 	api.agenticInitOnce.Do(func() {
 		// Load config and secret manager from agentic package
@@ -1798,6 +1817,8 @@ func (api *API) orchestrateAgentZero(w http.ResponseWriter, r *http.Request) {
 	httpapi.Write(r.Context(), w, http.StatusNotImplemented, codersdk.Response{Message: "Not implemented"})
 }
 
+=======
+>>>>>>> upstream/main
 // Close waits for all WebSocket connections to drain before returning.
 func (api *API) Close() error {
 	select {

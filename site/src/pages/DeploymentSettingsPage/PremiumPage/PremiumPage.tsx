@@ -5,6 +5,7 @@ import { pageTitle } from "utils/page";
 import { PremiumPageView } from "./PremiumPageView";
 
 const PremiumPage: FC = () => {
+<<<<<<< HEAD
 	return (
 		<>
 			<Helmet>
@@ -16,6 +17,16 @@ const PremiumPage: FC = () => {
 					There are no feature restrictions or upgrade requirements. Enjoy full access.
 				</p>
 			</div>
+=======
+	const { entitlements } = useDashboard();
+
+	return (
+		<>
+			<Helmet>
+				<title>{pageTitle("Premium Features")}</title>
+			</Helmet>
+			<PremiumPageView isEnterprise={entitlements.has_license} />
+>>>>>>> upstream/main
 		</>
 	);
 };

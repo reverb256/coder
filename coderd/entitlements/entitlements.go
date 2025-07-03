@@ -109,8 +109,19 @@ func (l *Set) Feature(name codersdk.FeatureName) (codersdk.Feature, bool) {
 }
 
 func (l *Set) Enabled(feature codersdk.FeatureName) bool {
+<<<<<<< HEAD
 	// License checks bypassed: all features enabled for all users.
 	return true
+=======
+	l.entitlementsMu.RLock()
+	defer l.entitlementsMu.RUnlock()
+
+	f, ok := l.entitlements.Features[feature]
+	if !ok {
+		return false
+	}
+	return f.Enabled
+>>>>>>> upstream/main
 }
 
 // AsJSON is used to return this to the api without exposing the entitlements for

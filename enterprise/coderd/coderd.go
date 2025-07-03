@@ -268,6 +268,10 @@ func New(ctx context.Context, options *Options) (_ *API, err error) {
 		r.Group(func(r chi.Router) {
 			r.Use(
 				apiKeyMiddleware,
+<<<<<<< HEAD
+=======
+				api.RequireFeatureMW(codersdk.FeatureMultipleOrganizations),
+>>>>>>> upstream/main
 			)
 			r.Post("/organizations", api.postOrganizations)
 		})
@@ -275,6 +279,10 @@ func New(ctx context.Context, options *Options) (_ *API, err error) {
 		r.Group(func(r chi.Router) {
 			r.Use(
 				apiKeyMiddleware,
+<<<<<<< HEAD
+=======
+				api.RequireFeatureMW(codersdk.FeatureMultipleOrganizations),
+>>>>>>> upstream/main
 				httpmw.ExtractOrganizationParam(api.Database),
 			)
 			r.Patch("/organizations/{organization}", api.patchOrganization)

@@ -18,6 +18,7 @@ export const Paywall: FC<PaywallProps> = ({
 	documentationLink,
 }) => {
 	return (
+<<<<<<< HEAD
 		<div style={{ padding: 24 }}>
 			<h5 style={{ fontWeight: 600, fontSize: 22, margin: 0 }}>{message}</h5>
 			{description && <p style={{ maxWidth: 460, fontSize: 14 }}>{description}</p>}
@@ -31,6 +32,57 @@ export const Paywall: FC<PaywallProps> = ({
 					Read the documentation
 				</a>
 			)}
+=======
+		<div css={styles.root}>
+			<div>
+				<Stack direction="row" alignItems="center" css={{ marginBottom: 24 }}>
+					<h5 css={styles.title}>{message}</h5>
+					<PremiumBadge />
+				</Stack>
+
+				{description && <p css={styles.description}>{description}</p>}
+				<Link
+					href={documentationLink}
+					target="_blank"
+					rel="noreferrer"
+					css={{ fontWeight: 600 }}
+				>
+					Read the documentation
+				</Link>
+			</div>
+			<div css={styles.separator} />
+			<Stack direction="column" alignItems="left" spacing={3}>
+				<ul css={styles.featureList}>
+					<li css={styles.feature}>
+						<FeatureIcon />
+						High availability & workspace proxies
+					</li>
+					<li css={styles.feature}>
+						<FeatureIcon />
+						Multi-org & role-based access control
+					</li>
+					<li css={styles.feature}>
+						<FeatureIcon />
+						24x7 global support with SLA
+					</li>
+					<li css={styles.feature}>
+						<FeatureIcon />
+						Unlimited Git & external auth integrations
+					</li>
+				</ul>
+				<div css={styles.learnButton}>
+					<Button asChild>
+						<a
+							href="https://coder.com/pricing#compare-plans"
+							target="_blank"
+							rel="noreferrer"
+						>
+							Learn about Premium
+						</a>
+					</Button>
+				</div>
+			</Stack>
+>>>>>>> upstream/main
 		</div>
 	);
 };

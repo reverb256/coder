@@ -24,7 +24,11 @@ With Coder, you can self-host AI agents in isolated development environments wit
 
 ## Prerequisites
 
+<<<<<<< HEAD
 Coder is free and open source for all users. All features are now available without restriction, and you can self-host a Coder deployment in your own cloud provider.
+=======
+Coder is free and open source for developers, with a [premium plan](https://coder.com/pricing) for enterprises. You can self-host a Coder deployment in your own cloud provider.
+>>>>>>> upstream/main
 
 - A [Coder deployment](../install/index.md) with v2.21.0 or later
 - A Coder [template](../admin/templates/index.md) for your project(s).

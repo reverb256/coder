@@ -128,4 +128,9 @@ log entry:
 
 ## Enabling this feature
 
+<<<<<<< HEAD
 This feature is now available to all users. No license or paid plan is required.
+=======
+This feature is only available with a premium license.
+[Learn more](../licensing/index.md)
+>>>>>>> upstream/main

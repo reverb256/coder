@@ -888,6 +888,7 @@ test:
 	$(GIT_FLAGS) gotestsum --format standard-quiet $(GOTESTSUM_RETRY_FLAGS) --packages="./..." -- -v -short -count=1 $(if $(RUN),-run $(RUN))
 .PHONY: test
 
+<<<<<<< HEAD
 # Run OpenCode & Agent-Zero integration tests
 test-opencode-agentzero-integration:
 	go test -tags=integration ./coderd/coderdtest -run 'TestOpenCodeAgentZero_Integration'
@@ -900,6 +901,8 @@ validate-opencode-agentzero:
 
 # To include in CI/CD: test-opencode-agentzero-integration and validate-opencode-agentzero
 
+=======
+>>>>>>> upstream/main
 test-cli:
 	$(GIT_FLAGS) gotestsum --format standard-quiet $(GOTESTSUM_RETRY_FLAGS) --packages="./cli/..." -- -v -short -count=1
 .PHONY: test-cli

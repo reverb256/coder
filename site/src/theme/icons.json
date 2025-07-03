@@ -90,6 +90,10 @@
 	"pycharm.svg",
 	"python.svg",
 	"pytorch.svg",
+<<<<<<< HEAD
+=======
+	"rdp.svg",
+>>>>>>> upstream/main
 	"rider.svg",
 	"rockylinux.svg",
 	"rstudio.svg",

@@ -331,7 +331,12 @@
 						{
 							"title": "Appearance",
 							"description": "Learn how to configure the appearance of Coder",
+<<<<<<< HEAD
 							"path": "./admin/setup/appearance.md"
+=======
+							"path": "./admin/setup/appearance.md",
+							"state": ["premium"]
+>>>>>>> upstream/main
 						},
 						{
 							"title": "Telemetry",
@@ -426,22 +431,42 @@
 						{
 							"title": "Groups \u0026 Roles",
 							"description": "Manage access control with user groups and role-based permissions for Coder resources",
+<<<<<<< HEAD
 							"path": "./admin/users/groups-roles.md"
+=======
+							"path": "./admin/users/groups-roles.md",
+							"state": ["premium"]
+>>>>>>> upstream/main
 						},
 						{
 							"title": "IdP Sync",
 							"description": "Synchronize user groups, roles, and organizations from your identity provider to Coder",
+<<<<<<< HEAD
 							"path": "./admin/users/idp-sync.md"
+=======
+							"path": "./admin/users/idp-sync.md",
+							"state": ["premium"]
+>>>>>>> upstream/main
 						},
 						{
 							"title": "Organizations",
 							"description": "Segment and isolate resources by creating separate organizations for different teams or projects",
+<<<<<<< HEAD
 							"path": "./admin/users/organizations.md"
+=======
+							"path": "./admin/users/organizations.md",
+							"state": ["premium"]
+>>>>>>> upstream/main
 						},
 						{
 							"title": "Quotas",
 							"description": "Control resource usage by implementing workspace budgets and credit-based cost management",
+<<<<<<< HEAD
 							"path": "./admin/users/quotas.md"
+=======
+							"path": "./admin/users/quotas.md",
+							"state": ["premium"]
+>>>>>>> upstream/main
 						},
 						{
 							"title": "Sessions \u0026 API Tokens",
@@ -529,7 +554,11 @@
 									"title": "Prebuilt workspaces",
 									"description": "Pre-provision a ready-to-deploy workspace with a defined set of parameters",
 									"path": "./admin/templates/extending-templates/prebuilt-workspaces.md",
+<<<<<<< HEAD
 									"state": ["beta"]
+=======
+									"state": ["premium", "beta"]
+>>>>>>> upstream/main
 								},
 								{
 									"title": "Icons",
@@ -605,7 +634,12 @@
 								{
 									"title": "Process Logging",
 									"description": "Log workspace processes",
+<<<<<<< HEAD
 									"path": "./admin/templates/extending-templates/process-logging.md"
+=======
+									"path": "./admin/templates/extending-templates/process-logging.md",
+									"state": ["premium"]
+>>>>>>> upstream/main
 								}
 							]
 						},
@@ -617,7 +651,12 @@
 						{
 							"title": "Permissions \u0026 Policies",
 							"description": "Learn how to create templates with Terraform",
+<<<<<<< HEAD
 							"path": "./admin/templates/template-permissions.md"
+=======
+							"path": "./admin/templates/template-permissions.md",
+							"state": ["premium"]
+>>>>>>> upstream/main
 						},
 						{
 							"title": "Troubleshooting Templates",
@@ -631,11 +670,20 @@
 					"description": "Learn how to run external provisioners with Coder",
 					"path": "./admin/provisioners/index.md",
 					"icon_path": "./images/icons/key.svg",
+<<<<<<< HEAD
+=======
+					"state": ["premium"],
+>>>>>>> upstream/main
 					"children": [
 						{
 							"title": "Manage Provisioner Jobs",
 							"description": "Learn how to run external provisioners with Coder",
+<<<<<<< HEAD
 							"path": "./admin/provisioners/manage-provisioner-jobs.md"
+=======
+							"path": "./admin/provisioners/manage-provisioner-jobs.md",
+							"state": ["premium"]
+>>>>>>> upstream/main
 						}
 					]
 				},
@@ -717,12 +765,22 @@
 						{
 							"title": "Workspace Proxies",
 							"description": "Run geo distributed workspace proxies",
+<<<<<<< HEAD
 							"path": "./admin/networking/workspace-proxies.md"
+=======
+							"path": "./admin/networking/workspace-proxies.md",
+							"state": ["premium"]
+>>>>>>> upstream/main
 						},
 						{
 							"title": "High Availability",
 							"description": "Learn how to configure Coder for High Availability",
+<<<<<<< HEAD
 							"path": "./admin/networking/high-availability.md"
+=======
+							"path": "./admin/networking/high-availability.md",
+							"state": ["premium"]
+>>>>>>> upstream/main
 						},
 						{
 							"title": "Troubleshooting",
@@ -780,7 +838,12 @@
 						{
 							"title": "Audit Logs",
 							"description": "Audit actions taken inside Coder",
+<<<<<<< HEAD
 							"path": "./admin/security/audit-logs.md"
+=======
+							"path": "./admin/security/audit-logs.md",
+							"state": ["premium"]
+>>>>>>> upstream/main
 						},
 						{
 							"title": "Secrets",
@@ -790,7 +853,12 @@
 						{
 							"title": "Database Encryption",
 							"description": "Encrypt the database to prevent unauthorized access",
+<<<<<<< HEAD
 							"path": "./admin/security/database-encryption.md"
+=======
+							"path": "./admin/security/database-encryption.md",
+							"state": ["premium"]
+>>>>>>> upstream/main
 						}
 					]
 				},

@@ -117,7 +117,11 @@ coder:
 ```
 
 You can view our
+<<<<<<< HEAD
 [Helm README](https://github.com/coder/coder/blob/main/helm#readme) for
+=======
+[Helm README](https://github.com/coder/coder/blob/main/helm/coder#readme) for
+>>>>>>> upstream/main
 details on the values that are available, or you can view the
 [values.yaml](https://github.com/coder/coder/blob/main/helm/coder/values.yaml)
 file directly.

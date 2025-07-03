@@ -5,6 +5,7 @@ import { docs } from "utils/docs";
 
 type PremiumPageViewProps = { isEnterprise: boolean };
 
+<<<<<<< HEAD
 export const PremiumPageView: FC<PremiumPageViewProps> = () => {
 	return (
 		<div style={{ padding: 24 }}>
@@ -14,6 +15,10 @@ export const PremiumPageView: FC<PremiumPageViewProps> = () => {
 			</p>
 		</div>
 	);
+=======
+export const PremiumPageView: FC<PremiumPageViewProps> = ({ isEnterprise }) => {
+	return isEnterprise ? <EnterpriseVersion /> : <OSSVersion />;
+>>>>>>> upstream/main
 };
 
 const EnterpriseVersion: FC = () => {
