@@ -3,9 +3,6 @@
 VERSION=$1
 shift 1
 
-# json_print() {
-# 	echo "{\"@level\":\"error\",\"@message\":\"$*\"}"
-# }
 
 case "$1" in
 version)
